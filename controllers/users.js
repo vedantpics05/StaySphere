@@ -34,7 +34,8 @@ module.exports.RenderLoginForm =(req,res)=>{
 module.exports.Login = async(req,res)=>{
         req.flash("success","Welcome to StaySphere");
         //For redirection
-        let redirectUrl = res.locals.redirectUrl || "/listings";
+        let redirectUrl = req.session.redirectUrl || "/listings";
+        delete req.session.redirectUrl; // VERY IMPORTANT
         res.redirect(redirectUrl);
 };
 

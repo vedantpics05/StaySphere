@@ -8,15 +8,18 @@ const {saveRedirect} = require("../middleware.js");
 const userController = require("../controllers/users.js")
 
 
-//---------Rote.Routes(SignUp)--------
+//---------Route.Routes(SignUp)--------
 router.route("/signup")
 .get( userController.RenderSignUpForm)
 .post(wrapAsync(userController.SignUp))
 
+
+
 ///------Router.Route(Login)-------
 router.route("/login")
 .get(userController.RenderLoginForm)
-.post(saveRedirect,
+.post(
+  // saveRedirect,
       passport.authenticate("local",////Passsport authenticator if username pass consist in database or not 
         {failureRedirect:"/login",/// Actuall Login Implementation
         failureFlash:true
