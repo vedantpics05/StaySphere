@@ -69,7 +69,7 @@ module.exports.showLisiting = async (req, res) => {
 
 //Create Post
 module.exports.CreatePost =async (req,res,next)=>{
-  console.log("✅ CREATE POST HIT");
+  console.log("✅ CREATE POST HIT");/////////////////////////
 
      const listingData = req.body.listing;
      //Step 2 -Validate After fxing shape

@@ -21,27 +21,10 @@ const upload = multer({storage});// multer store the data in strorage
 //-----Router.Route-get and post listing-------
 router.route("/")
 .get(wrapAsync(ListingController.index))
-// .post(isLoggedIn, 
-//     upload.single("listing[image]"),
-//     validateListing,
-//     wrapAsync(ListingController.CreatePost));
-
-//-----------Temp-------------------
-.post(
-  isLoggedIn,
-  upload.single("listing[image]"),
-
-  (req, res, next) => {
-    console.log("🔥 BODY:", req.body);
-    console.log("🔥 FILE:", req.file);
-    next();
-  },
-
-  validateListing,
-  wrapAsync(ListingController.CreatePost)
-);
-
-
+.post(isLoggedIn, 
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(ListingController.CreatePost));
 
 
 //---------NEW route — MUST COME FIRST-------------------------------------
