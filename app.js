@@ -53,11 +53,13 @@ const sessionOption = {
     store,
     secret:process.env.SECRET,
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
     cookie:{
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",         
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge:7 * 24 * 60 * 60 * 1000,
-        httpOnly:true,
     }
 }
 
@@ -65,6 +67,9 @@ const sessionOption = {
 // app.get("/",(req,res)=>{
 //     res.send("Home page")
 // })
+
+app.set("trust proxy", 1);
+
 
 app.use(session(sessionOption));
 app.use(flash());
@@ -91,13 +96,18 @@ async function main() {
         await mongoose.connect(dbURL);
         console.log("connected to db");
 
-        app.listen(8011, () => {
-            console.log("Server is Running");
+        // app.listen(8011, () => {
+        //     console.log("Server is Running");
+        // });
+
+        const PORT = process.env.PORT || 8011;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
         });
 
-    } catch (err) {
-        console.log(err);
-    }
+        } catch (err) {
+            console.log(err);
+        }
 }
 
 main();
