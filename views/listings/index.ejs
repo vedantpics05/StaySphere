@@ -1,0 +1,137 @@
+<% layout("layouts/boilerplate") -%>
+<!-- <h3>All Listings</h3> -->
+
+<style>
+  #filters{
+    /* margin-top: 1rem; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .filter{
+    
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 1rem;
+    opacity: 0.7;
+  }
+  .filter:hover{
+    opacity: 1;
+    cursor: pointer;
+  }
+  .filter p{
+    font-size: 0.8rem;
+  }
+  .tax-info{
+     display: none;
+  }
+  .tax-Switch{
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    margin-left: 5rem;
+    height: 3.5rem;
+    margin-top: 1rem;
+  }
+</style>
+<div id="filters">
+  <div class="filter"data-category="trending">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+
+  <div class="filter"data-category="rooms">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </div>
+   <div class="filter"data-category="iconic-cities">
+    <div><i class="fa-solid fa-mountain-city"></i></div>
+    <p>Iconic Citys</p>
+  </div>
+  <div class="filter"data-category="pools">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Pools</p>
+  </div>
+  <div class="filter"data-category="camping">
+    <div><i class="fa-solid fa-umbrella-beach"></i></div>
+    <p>Camping</p>
+  </div>
+  <div class="filter"data-category="farms">
+    <div><i class="fa-solid fa-cow"></i></div>
+    <p>Farms</p>
+  </div>
+   <div class="filter"data-category="metro">
+    <div><i class="fa-solid fa-city"></i></div>
+    <p>Metro</p>
+  </div>
+  <div class="filter"data-category="domes">
+    <div><i class="fa-solid fa-landmark-dome"></i></div>
+    <p>Domes</p>
+  </div>
+  <div class="filter"data-category="farms">
+    <div><i class="fa-solid fa-cow"></i></div>
+    <p>Farms</p>
+  </div>
+   <div class="filter"data-category="5-star">
+    <div><i class="fa-solid fa-city"></i></div>
+    <p>5-Star</p>
+  </div>
+
+
+  <div class="tax-Switch">
+  <div class="form-check-reverse form-switch">
+  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+  <label class="form-check-label" for="flexSwitchCheckDefault">Display Taxes</label>
+  </div>
+
+</div>
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+<% for (let list of allListing) { %>
+  <a href="/listings/<%=list._id%>" class="listing-link">
+
+<div class="card col " >
+  <img src="<%=list.image.url%>" class="card-img-top" alt="listing_image" style="height:20rem" >
+
+   <div class="card-img-overlay overlay-effect">
+    </div>
+    
+  <div class="card-body">
+  <h5  class="card-title"> 
+
+  <b><%= list.title %><br></b>
+   &#8377; <%= list.price.toLocaleString("en-IN") %>/night
+  </h5>
+  <i class="tax-info">+18%GST</i>
+  <p class="card-text"><%=list.description%></p>
+  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+</a>
+  <% } %>
+</div>
+
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault")
+  taxSwitch.addEventListener("click",(()=>{
+    let tax = document.getElementsByClassName("tax-info");
+    for(info of tax){
+      if(info.style.display!="inline"){
+         info.style.display ="inline";
+      }else{
+         info.style.display ="none";
+      }
+    }
+  }))
+//-------------------To access the icons in backend--------------------------- 
+  let icon = document.querySelectorAll(".filter")
+  icon.forEach(filter=>{
+    filter.addEventListener("click",()=>{
+      const category  = filter.dataset.category;///dataset data category explain later
+      window.location.href = `/listings?category=${category}`;
+    })
+  })
+</script>

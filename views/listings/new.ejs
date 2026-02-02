@@ -1,0 +1,186 @@
+<% layout("layouts/boilerplate") -%>
+<div class="row">
+    <div class="col-8 offset-2">
+        <br>
+    <h3>Create a new Listing</h3>
+
+    <form method="post" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input name="listing[title]" placeholder="Enter title" type="text" class="form-control" required>
+            <div class="valid-feedback">That's Great!!</div>
+            <div class="invalid-feedback">Please Enter the Title</div>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="listing[description]" class="form-control" required></textarea>
+             <div class="valid-feedback">That's Great!!</div>
+             <div class="invalid-feedback">Please Enter the Description</div>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image</label>
+            <input name="listing[image]" type="file" class="form-control" >
+        </div>
+        <br>
+        <div class="mb-3">
+             <label for="price" class="form-label">Price</label>
+             <input name="listing[price]" placeholder="Enter Price" type="number"class="form-control" required>
+              <div class="valid-feedback">That's Great!!</div>
+              <div class="invalid-feedback">Please Enter the Vaild Price</div>
+        </div>
+        <br>
+        <div class="row">
+        <div class="mb-3 col-md-4">
+             <label for="location" class="form-label">City</label>
+            <input name="listing[location]" placeholder="Enter City" type="text" class="form-control" required>
+            <div class="valid-feedback">That's Great!!</div>
+            <div class="invalid-feedback">Please Enter Vaild City</div>
+        </div>
+        <br>
+        <div class="mb-3 col-md-8">
+             <label for="country" class="form-label">Country</label>
+             <input name="listing[country]" placeholder="Enter Country" type="text" class="form-control" required>
+             <div class="valid-feedback">That's Great!!</div>
+             <div class="invalid-feedback">Please Enter Vaild Country</div>
+        </div>
+
+<!--  --------------------------------------------------------------- -->
+<div class="mb-3">
+  <label class="form-label fw-semibold">Select Categories</label>
+    <br><br>
+  <div class="row g-3">
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center " data-value="trending">
+        <i class="fa-solid fa-fire"></i>
+        <small>Trending</small>
+      </div>
+    </div>
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center " data-value="rooms">
+       <i class="fa-solid fa-bed"></i>
+        <small>Rooms</small>
+      </div>
+    </div>
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center " data-value="iconic-cities">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <small>Iconic-Cities</small>
+      </div>
+    </div>
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center" data-value="pools">
+       <i class="fa-solid fa-person-swimming"></i>
+        <small>Pools</small>
+      </div>
+    </div>
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center" data-value="camping">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <small>Camping</small>
+      </div>
+    </div>
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center" data-value="farms">
+       <i class="fa-solid fa-cow"></i>
+        <small>Farms</small>
+      </div>
+    </div>
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center" data-value="metro">
+        <i class="fa-solid fa-city"></i>
+        <small>Metro</small>
+      </div>
+    </div>
+
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center" data-value="domes">
+        <i class="fa-solid fa-landmark-dome"></i>
+        <small>Domes</small>
+      </div>
+    </div>
+    <div class="col-4 col-md-2">
+      <div class="card category-card text-center" data-value="5-star">
+        <i class="fa-solid fa-city"></i>
+        <small>5-Star</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<input type="hidden" name="listing[categories]" id="categoriesInput">
+        </div>
+        
+        <button class="btn btn-dark">Add</button>
+    </form>
+    <br>
+    </div>
+    </div>
+    <!------------------------------------------------------------>
+<script>
+    
+  let cards = document.querySelectorAll(".category-card");
+  let input = document.getElementById("categoriesInput");
+
+  let selected = [];
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+
+      let value = card.dataset.value;
+
+      if (selected.includes(value)) {
+        // remove if already selected
+        selected = selected.filter(v => v !== value);
+        card.classList.remove("selected");
+      } else {
+        // add if not selected
+        selected.push(value);
+        card.classList.add("selected");
+      }
+
+      input.value = selected.join(",");
+    });
+  });
+
+</script>
+
+    <style>
+        .fa-solid{
+            display: flex;
+            justify-content: center;
+            
+        }
+        .category-card{
+          cursor: pointer;
+          opacity: 0.6 !important;
+           margin-top: 5px!important;
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           text-align: center;
+        }
+        .category-card:hover{
+          opacity: 1 !important;
+        }
+        .category-card.selected {
+          opacity: 1 !important;
+          border: 2px solid #ff385c;
+          background-color: #fff1f4;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+
+
+    </style>
+
