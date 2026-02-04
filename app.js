@@ -129,6 +129,9 @@ main();
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews",reviewRoutes)
 app.use("/",userRoutes);
+app.use("/", (req, res)=>{
+    res.redirect("/listings");
+})
 
 //-----------------------------------------------------------------------
 
