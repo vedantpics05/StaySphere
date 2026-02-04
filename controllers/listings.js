@@ -79,9 +79,18 @@ module.exports.CreatePost =async (req,res,next)=>{
     // }
 
    // 🔍 get coordinates
-    const response = await axios.get(
-    `https://nominatim.openstreetmap.org/search?q=${listingData.location},${listingData.country}&format=json`
-    );
+    let response;
+    try {
+      response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${listingData.location},${listingData.country}&format=json`,
+        {
+          headers: { "User-Agent": "StaySphere" }, // Nominatim requires User-Agent
+        }
+      );
+    } catch (e) {
+      console.log("Geocoding error:", e);
+      response = { data: [] }; // Fallback to avoid crash
+    }
 
     const newListing = new Listing(listingData);
 
@@ -95,13 +104,12 @@ module.exports.CreatePost =async (req,res,next)=>{
     }
     
   // ✅ real location
-  newListing.geometry = {
-    type: "Point",
-    coordinates: [
-      response.data[0].lon,
-      response.data[0].lat
-    ]
-  };
+  // Default to [0,0] if geocoding fails
+  const geometry = response.data && response.data.length > 0
+  ? { type: "Point", coordinates: [response.data[0].lon, response.data[0].lat] }
+  : { type: "Point", coordinates: [0, 0] }; 
+
+  newListing.geometry = geometry;
 
   // image
   if (req.file) {
